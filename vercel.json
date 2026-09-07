@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "inventario_autostar.html", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/", "dest": "/inventario_autostar.html" },
+    { "src": "/(.*)", "dest": "/$1" }
+  ]
+}
