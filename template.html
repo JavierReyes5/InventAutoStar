@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Autostar · Piso de unidades</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Expanded:wght@700;800&family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --asphalt:#F6E4E4;
+    --panel:#FDF6F5;
+    --panel-2:#F3DEDD;
+    --line:#E6C3C2;
+    --ink:#3E2426;
+    --ink-dim:#7A4F52;
+    --ink-faint:#A9797B;
+    --amber:#C2185B;
+    --amber-dim:#F3C6D8;
+    --ok:#1E7A46;
+    --ok-dim:#D8EFDF;
+    --hold:#8A6300;
+    --hold-dim:#F6E8C2;
+    --urgent:#B3261E;
+    --urgent-dim:#F8D6D3;
+    --incoming:#1B5FA8;
+    --incoming-dim:#D9E7F5;
+    --card:#FFFFFF;
+    --card-border:#EAC9C8;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--asphalt);color:var(--ink);font-family:'Inter',sans-serif;}
+  body{min-height:100vh;}
+
+  .wrap{max-width:1180px;margin:0 auto;padding:22px 20px 60px;}
+
+  /* ---- Header ---- */
+  header{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:18px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:16px;}
+  .brand{display:flex;align-items:center;gap:12px;}
+  .plate{
+    font-family:'Archivo Expanded',sans-serif;
+    font-weight:800;
+    font-size:20px;
+    letter-spacing:0.5px;
+    background:linear-gradient(180deg,#fff,#d8dde3);
+    color:#14171B;
+    padding:7px 12px 6px;
+    border-radius:5px;
+    border:2px solid #0000;
+    box-shadow:0 2px 0 rgba(0,0,0,.35), inset 0 -2px 0 rgba(0,0,0,.08);
+  }
+  .brand-sub{font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:2.5px;text-transform:uppercase;color:var(--ink-faint);}
+  .headline{font-family:'Archivo Expanded',sans-serif;font-weight:800;font-size:15px;letter-spacing:.5px;color:var(--ink-dim);}
+  .count-chip{font-family:'Barlow Condensed',sans-serif;font-size:15px;color:var(--ink-dim);}
+  .count-chip b{color:var(--amber);font-size:19px;font-weight:700;}
+
+  /* ---- Location tabs ---- */
+  .tabs{display:flex;gap:8px;margin:18px 0 14px;flex-wrap:wrap;}
+  .tab{
+    font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:16px;letter-spacing:.5px;
+    padding:9px 16px;border-radius:8px;background:var(--panel);border:1px solid var(--line);
+    color:var(--ink-dim);cursor:pointer;user-select:none;display:flex;align-items:center;gap:8px;
+    transition:.15s;
+  }
+  .tab:hover{border-color:var(--amber-dim);color:var(--ink);}
+  .tab.active{background:var(--amber);color:#1a1206;border-color:var(--amber);}
+  .tab .n{font-weight:700;opacity:.75;}
+  .tab.active .n{opacity:.65;}
+
+  /* ---- Filters ---- */
+  .filters{
+    background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:16px 18px;margin-bottom:18px;display:grid;
+    grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;gap:14px;align-items:end;
+  }
+  @media(max-width:900px){.filters{grid-template-columns:1fr 1fr;}}
+
+  /* ---- iPad / Tablet ---- */
+  @media(min-width:601px) and (max-width:1024px){
+    .wrap{max-width:100%;padding:20px 24px 50px;}
+    .tabs{flex-wrap:wrap;}
+    .tab{padding:10px 16px;font-size:15px;}
+    .filters{padding:16px 18px;gap:14px;}
+    .f-group input,.f-group select{padding:11px;font-size:15px;}
+    .chip{padding:8px 13px;font-size:13.5px;}
+    .add-btn, .go-btn, button{min-height:40px;}
+    .grid{grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;}
+    .card{padding:15px 16px 14px;}
+  }
+  .f-group label{display:block;font-family:'Barlow Condensed',sans-serif;font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px;}
+  .f-group input, .f-group select{
+    width:100%;background:var(--panel-2);border:1px solid var(--line);color:var(--ink);
+    padding:9px 10px;border-radius:7px;font-family:'Inter',sans-serif;font-size:14px;
+  }
+  .f-group input:focus, .f-group select:focus{outline:none;border-color:var(--amber-dim);}
+  .range-row{display:flex;gap:6px;}
+  .range-row input{width:50%;}
+  .status-row{grid-column:1 / -1;display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding-top:2px;border-top:1px solid var(--line);margin-top:2px;}
+  .status-row label.st-label, .tag-row label.st-label{font-family:'Barlow Condensed',sans-serif;font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-faint);margin-right:4px;}
+  .chip{
+    font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:600;letter-spacing:.4px;
+    padding:6px 12px;border-radius:20px;border:1px solid var(--line);cursor:pointer;color:var(--ink-dim);background:var(--panel-2);
+    transition:.15s;
+  }
+  .chip[data-on="1"]{color:#0c1610;}
+  .chip.disp[data-on="1"]{background:var(--ok);border-color:var(--ok);color:#0c1610;}
+  .chip.urg[data-on="1"]{background:var(--urgent);border-color:var(--urgent);color:#2a0505;}
+  .chip.rec[data-on="1"]{background:var(--incoming);border-color:var(--incoming);color:#06192b;}
+  .reset-btn{
+    margin-left:auto;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:600;
+    color:var(--ink-faint);background:none;border:1px solid var(--line);padding:6px 12px;border-radius:20px;cursor:pointer;
+  }
+  .reset-btn:hover{color:var(--ink);border-color:var(--ink-faint);}
+
+  /* ---- Tag row (tipo, multi-select) ---- */
+  .tag-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-bottom:14px;margin-bottom:2px;border-bottom:1px solid var(--line);}
+  .tag-list{display:flex;gap:8px;flex-wrap:wrap;}
+  .tag{
+    font-family:'Barlow Condensed',sans-serif;font-size:13.5px;font-weight:600;letter-spacing:.4px;
+    padding:6px 12px 6px 10px;border-radius:7px;border:1px solid var(--line);cursor:pointer;
+    color:var(--ink-faint);background:var(--panel-2);transition:.15s;display:flex;align-items:center;gap:6px;
+  }
+  .tag:hover{color:var(--ink-dim);border-color:var(--amber-dim);}
+  .tag[data-on="1"]{background:var(--amber);border-color:var(--amber);color:#1a0d15;}
+  .tag .mark{font-weight:800;font-size:12px;}
+  .tag-hint{font-size:11.5px;color:var(--ink-faint);font-family:'Barlow Condensed',sans-serif;letter-spacing:.3px;}
+
+  /* ---- Toggle switch ---- */
+  .toggle-wrap{display:flex;align-items:center;gap:9px;margin-left:6px;padding-left:12px;border-left:1px solid var(--line);}
+  .toggle-label{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:600;color:var(--ink-dim);letter-spacing:.3px;}
+  .toggle-switch{
+    width:40px;height:22px;border-radius:20px;background:var(--panel-2);border:1px solid var(--line);
+    cursor:pointer;position:relative;transition:.2s;flex:none;
+  }
+  .toggle-switch .knob{
+    width:16px;height:16px;border-radius:50%;background:var(--ink-faint);position:absolute;top:2px;left:2px;transition:.2s;
+  }
+  .toggle-switch[data-on="1"]{background:var(--amber-dim);border-color:var(--amber);}
+  .toggle-switch[data-on="1"] .knob{background:var(--amber);left:20px;}
+
+  /* ---- Group headers ---- */
+  .group-head{
+    display:flex;align-items:baseline;gap:10px;margin:24px 0 10px;padding-bottom:8px;border-bottom:1px solid var(--line);
+  }
+  .group-head h2{
+    font-family:'Archivo Expanded',sans-serif;font-weight:800;font-size:17px;letter-spacing:.3px;margin:0;color:var(--ink);
+  }
+  .group-head .dot{width:9px;height:9px;border-radius:50%;background:var(--amber);}
+  .group-head .sub{font-family:'Barlow Condensed',sans-serif;color:var(--ink-faint);font-size:14px;}
+
+  /* ---- Cards ---- */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;}
+  .card{
+    background:var(--card);border:1px solid var(--card-border);border-radius:11px;padding:14px 15px 13px;
+    display:flex;flex-direction:column;gap:9px;position:relative;transition:.15s;
+  }
+  .card:hover{border-color:var(--amber);transform:translateY(-1px);}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
+  .desc{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17.5px;line-height:1.15;letter-spacing:.2px;}
+  .badge{
+    flex:none;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11.5px;letter-spacing:1px;text-transform:uppercase;
+    padding:4px 9px;border-radius:5px;white-space:nowrap;
+  }
+  .badge.DISPONIBLE{background:var(--ok-dim);color:var(--ok);}
+  .badge.APARTADO{background:var(--hold-dim);color:var(--hold);}
+  .badge.VENTA-URGENTE{background:var(--urgent-dim);color:var(--urgent);}
+  .badge.POR-RECIBIR{background:var(--incoming-dim);color:var(--incoming);}
+
+  .meta-row{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--ink-dim);}
+  .meta-row span b{color:var(--ink);font-weight:600;}
+  .motor-row{margin-top:-2px;font-size:12.5px;color:var(--ink-faint);}
+
+  .price-row{display:flex;align-items:baseline;justify-content:space-between;margin-top:2px;}
+  .price{font-family:'Archivo Expanded',sans-serif;font-weight:800;font-size:21px;color:var(--amber);}
+  .bono{font-size:12px;color:var(--ok);font-weight:600;}
+  .loc-line{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--ink-faint);border-top:1px dashed var(--line);padding-top:8px;margin-top:2px;}
+  .loc-line .ubi{font-family:'Barlow Condensed',sans-serif;letter-spacing:.5px;}
+  .loc-line a{color:var(--ink-dim);text-decoration:none;border-bottom:1px solid var(--ink-faint);font-size:12.5px;}
+  .loc-line a:hover{color:var(--amber);border-color:var(--amber);}
+  .tag-inv{position:absolute;top:-8px;right:12px;font-family:'Barlow Condensed',sans-serif;font-size:11px;color:var(--asphalt);background:var(--ink-faint);padding:1px 7px;border-radius:4px;letter-spacing:.5px;}
+
+  .empty{padding:50px 10px;text-align:center;color:var(--ink-faint);font-family:'Barlow Condensed',sans-serif;font-size:17px;}
+
+  footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);color:var(--ink-faint);font-size:12px;font-family:'Barlow Condensed',sans-serif;letter-spacing:.3px;}
+
+  /* ---- Mobile / iPhone ---- */
+  @media(max-width:600px){
+    .wrap{padding:14px 12px 40px;}
+
+    header{flex-direction:column;align-items:flex-start;gap:8px;margin-bottom:12px;padding-bottom:12px;}
+    .plate{font-size:17px;padding:6px 10px 5px;}
+    .brand-sub{font-size:11px;letter-spacing:1.8px;}
+    .headline{font-size:13px;}
+    .count-chip{font-size:13px;}
+    .count-chip b{font-size:16px;}
+
+    /* horizontal-scroll tabs instead of wrapping */
+    .tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:14px -12px 12px;padding:0 12px 4px;scrollbar-width:none;}
+    .tabs::-webkit-scrollbar{display:none;}
+    .tab{font-size:14px;padding:8px 13px;flex:none;white-space:nowrap;}
+
+    .filters{grid-template-columns:1fr !important;padding:13px 14px;gap:12px;border-radius:10px;}
+    .f-group input,.f-group select{font-size:16px;padding:10px;} /* 16px avoids iOS auto-zoom on focus */
+    .range-row input{width:50%;}
+    .status-row{gap:7px;}
+    .chip{font-size:13px;padding:6px 11px;}
+    .reset-btn{margin-left:0;width:100%;text-align:center;margin-top:4px;}
+
+    .tag-row{gap:9px;}
+    .tag-list{gap:7px;}
+    .tag{font-size:12.5px;padding:6px 10px 6px 9px;}
+    .tag-hint{width:100%;order:99;}
+
+    .toggle-wrap{margin-left:0;padding-left:0;border-left:none;border-top:1px solid var(--line);padding-top:10px;width:100%;}
+
+    .group-head{margin:18px 0 8px;flex-wrap:wrap;}
+    .group-head h2{font-size:15.5px;}
+    .group-head .sub{font-size:12.5px;}
+
+    /* single-column cards, full width */
+    .grid{grid-template-columns:1fr;gap:10px;}
+    .card{padding:13px 14px 12px;}
+    .desc{font-size:16.5px;}
+    .badge{font-size:10.5px;padding:4px 8px;}
+    .meta-row{font-size:12.5px;gap:5px 12px;}
+    .price{font-size:19px;}
+    .loc-line{flex-wrap:wrap;gap:4px;}
+
+    footer{font-size:11px;margin-top:26px;}
+  }
+
+  @media(max-width:380px){
+    .desc{font-size:15.5px;}
+    .price{font-size:18px;}
+    .tab{font-size:13px;padding:7px 11px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand">
+      <div class="plate">AUTOSTAR</div>
+      <div>
+        <div class="headline">Piso de unidades · Seminuevos</div>
+        <div class="brand-sub">Baja California</div>
+      </div>
+    </div>
+    <div class="count-chip">Mostrando <b id="shownCount">0</b> de <span id="totalCount">0</span> unidades</div>
+  </header>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="filters">
+    <div class="f-group" style="grid-column:1 / -1;">
+      <label>Buscar (marca, modelo, VIN)</label>
+      <input type="text" id="fSearch" placeholder="Ej. Corolla, Kicks, LK291998...">
+    </div>
+    <div class="f-group">
+      <label>Año (mín – máx)</label>
+      <div class="range-row">
+        <input type="number" id="fAnioMin" placeholder="Mín">
+        <input type="number" id="fAnioMax" placeholder="Máx">
+      </div>
+    </div>
+    <div class="f-group">
+      <label>Presupuesto máx.</label>
+      <input type="number" id="fPrecioMax" placeholder="$ MXN">
+    </div>
+    <div class="f-group" style="grid-column:span 2;">
+      <label>Ordenar por</label>
+      <select id="fSort">
+        <option value="precio_asc">Precio: menor a mayor</option>
+        <option value="precio_desc">Precio: mayor a menor</option>
+        <option value="anio_desc">Año: más nuevo</option>
+        <option value="anio_asc">Año: más antiguo</option>
+        <option value="kms_asc">Kilometraje: menor</option>
+      </select>
+    </div>
+
+    <div class="tag-row" style="grid-column:1 / -1;">
+      <label class="st-label">Tipo de unidad</label>
+      <div class="tag-list" id="tipoTags"></div>
+      <div class="tag-hint">Toca una etiqueta para agregarla o quitarla del filtro</div>
+    </div>
+
+    <div class="status-row">
+      <label class="st-label">Estatus</label>
+      <div class="chip disp" data-status="DISPONIBLE" data-on="1">Disponible</div>
+      <div class="chip urg" data-status="VENTA URGENTE" data-on="1">Venta urgente</div>
+      <div class="chip rec" data-status="POR RECIBIR" data-on="1">Por recibir</div>
+
+      <div class="toggle-wrap" id="toggleApartadas">
+        <span class="toggle-label">Ver apartadas</span>
+        <div class="toggle-switch" data-on="1"><div class="knob"></div></div>
+      </div>
+
+      <button class="reset-btn" id="resetBtn">Limpiar filtros</button>
+    </div>
+  </div>
+
+  <div id="results"></div>
+
+  <footer>Datos cargados de AppSheet · %%FECHA%% · Los precios y disponibilidad pueden cambiar; verifica antes de ofertar al cliente.</footer>
+</div>
+
+<script>
+const DATA = [/*%%DATA%%*/];
+
+const GROUPS = ["Mexicali","Tijuana","Otro"];
+let activeGroup = "Mexicali";
+
+function fmtMoney(n){
+  if(!n) return "Consultar";
+  return "$" + Math.round(n).toLocaleString('es-MX');
+}
+function fmtKm(n){ return n.toLocaleString('es-MX') + " km"; }
+function statusClass(s){ return s.replace(/\s+/g,'-'); }
+function fmtMotor(d){
+  const cil = d.cil ? `${d.cil} cil` : '';
+  const lts = d.lts ? `${d.lts}L` : '';
+  const trans = d.trans === 'AUT' ? 'Automática' : (d.trans === 'STD' ? 'Estándar' : '');
+  return [cil, lts, trans].filter(Boolean).join(' · ') || 'Motor N/D';
+}
+
+function uniqueSorted(arr){ return [...new Set(arr)].sort(); }
+
+function buildTipoTags(){
+  const box = document.getElementById('tipoTags');
+  uniqueSorted(DATA.map(d=>d.tipo)).forEach(t=>{
+    const el = document.createElement('div');
+    el.className = 'tag';
+    el.dataset.tipo = t;
+    el.dataset.on = "1";
+    el.innerHTML = `<span class="mark">＋</span> ${t.charAt(0)+t.slice(1).toLowerCase()}`;
+    el.onclick = ()=>{
+      el.dataset.on = el.dataset.on === "1" ? "0" : "1";
+      el.querySelector('.mark').textContent = el.dataset.on === "1" ? "＋" : "－";
+      render();
+    };
+    box.appendChild(el);
+  });
+}
+function getActiveTipos(){
+  return [...document.querySelectorAll('.tag')].filter(t=>t.dataset.on==="1").map(t=>t.dataset.tipo);
+}
+
+function buildTabs(){
+  const tabs = document.getElementById('tabs');
+  tabs.innerHTML = "";
+  const allTab = document.createElement('div');
+  const counts = {};
+  GROUPS.forEach(g=> counts[g] = DATA.filter(d=>d.grupo===g).length);
+  const total = DATA.length;
+
+  const mk = (key,label,n)=>{
+    const t = document.createElement('div');
+    t.className = 'tab' + (activeGroup===key?' active':'');
+    t.innerHTML = `${label} <span class="n">${n}</span>`;
+    t.onclick = ()=>{ activeGroup = key; buildTabs(); render(); };
+    return t;
+  };
+  tabs.appendChild(mk('Mexicali','📍 Mexicali', counts['Mexicali']||0));
+  tabs.appendChild(mk('Tijuana','Tijuana', counts['Tijuana']||0));
+  tabs.appendChild(mk('Otro','Otras ubicaciones', counts['Otro']||0));
+  tabs.appendChild(mk('__ALL__','Todas', total));
+}
+
+function getActiveStatuses(){
+  const statuses = [...document.querySelectorAll('.status-row .chip')].filter(c=>c.dataset.on==="1").map(c=>c.dataset.status);
+  const apartadasOn = document.getElementById('toggleApartadas').querySelector('.toggle-switch').dataset.on === "1";
+  if(apartadasOn) statuses.push('APARTADO');
+  return statuses;
+}
+
+function applyFilters(){
+  const search = document.getElementById('fSearch').value.trim().toUpperCase();
+  const activeTipos = getActiveTipos();
+  const anioMin = parseInt(document.getElementById('fAnioMin').value) || 0;
+  const anioMax = parseInt(document.getElementById('fAnioMax').value) || 9999;
+  const precioMax = parseFloat(document.getElementById('fPrecioMax').value) || Infinity;
+  const statuses = getActiveStatuses();
+  const sort = document.getElementById('fSort').value;
+
+  let rows = DATA.filter(d=>{
+    if(activeGroup !== '__ALL__' && d.grupo !== activeGroup) return false;
+    if(!activeTipos.includes(d.tipo)) return false;
+    if(!statuses.includes(d.estatus)) return false;
+    const anio = parseInt(d.anio) || 0;
+    if(anio < anioMin || anio > anioMax) return false;
+    if(d.precio && d.precio > precioMax) return false;
+    if(search){
+      const hay = (d.desc + " " + d.vin + " " + d.color + " " + d.ubicacion).toUpperCase();
+      if(!hay.includes(search)) return false;
+    }
+    return true;
+  });
+
+  rows.sort((a,b)=>{
+    switch(sort){
+      case 'precio_asc': return (a.precio||9e9) - (b.precio||9e9);
+      case 'precio_desc': return (b.precio||0) - (a.precio||0);
+      case 'anio_desc': return (parseInt(b.anio)||0) - (parseInt(a.anio)||0);
+      case 'anio_asc': return (parseInt(a.anio)||0) - (parseInt(b.anio)||0);
+      case 'kms_asc': return a.kms - b.kms;
+      default: return 0;
+    }
+  });
+  return rows;
+}
+
+function card(d){
+  const badgeCls = statusClass(d.estatus);
+  const bono = d.bono ? `<span class="bono">Bono ${fmtMoney(parseFloat(d.bono.replace(/[^0-9.]/g,'')))}</span>` : '';
+  const link = d.link ? `<a href="${d.link}" target="_blank" rel="noopener">Ficha ↗</a>` : '<span></span>';
+  return `
+    <div class="card">
+      <span class="tag-inv">#${d.inv}</span>
+      <div class="card-top">
+        <div class="desc">${d.desc.charAt(0)+d.desc.slice(1).toLowerCase()} <span style="color:var(--ink-faint);font-weight:500;">'${d.anio}</span></div>
+        <div class="badge ${badgeCls}">${d.estatus}</div>
+      </div>
+      <div class="meta-row">
+        <span><b>${fmtKm(d.kms)}</b></span>
+        <span>${d.color}</span>
+        <span>${d.tipo.charAt(0)+d.tipo.slice(1).toLowerCase()}</span>
+      </div>
+      <div class="meta-row motor-row">
+        <span>🔧 ${fmtMotor(d)}</span>
+      </div>
+      <div class="price-row">
+        <div class="price">${fmtMoney(d.precio)}</div>
+        ${bono}
+      </div>
+      <div class="loc-line">
+        <span class="ubi">${d.ubicacion}</span>
+        ${link}
+      </div>
+    </div>
+  `;
+}
+
+function render(){
+  const rows = applyFilters();
+  const results = document.getElementById('results');
+  document.getElementById('shownCount').textContent = rows.length;
+  document.getElementById('totalCount').textContent = DATA.length;
+
+  if(rows.length === 0){
+    results.innerHTML = `<div class="empty">No hay unidades que cumplan estos filtros.<br>Prueba ajustando el presupuesto, año o estatus.</div>`;
+    return;
+  }
+
+  if(activeGroup !== '__ALL__'){
+    results.innerHTML = `<div class="grid">${rows.map(card).join('')}</div>`;
+    return;
+  }
+
+  // Group by location group when showing "Todas"
+  let html = '';
+  GROUPS.forEach(g=>{
+    const sub = rows.filter(r=>r.grupo===g);
+    if(sub.length===0) return;
+    html += `<div class="group-head"><div class="dot"></div><h2>${g}</h2><span class="sub">${sub.length} unidad${sub.length===1?'':'es'}</span></div>`;
+    html += `<div class="grid">${sub.map(card).join('')}</div>`;
+  });
+  results.innerHTML = html;
+}
+
+// wire up events
+document.querySelectorAll('.status-row .chip').forEach(c=>{
+  c.onclick = ()=>{ c.dataset.on = c.dataset.on === "1" ? "0" : "1"; render(); };
+});
+const apartadasSwitch = document.querySelector('#toggleApartadas .toggle-switch');
+apartadasSwitch.onclick = ()=>{
+  apartadasSwitch.dataset.on = apartadasSwitch.dataset.on === "1" ? "0" : "1";
+  render();
+};
+['fSearch','fAnioMin','fAnioMax','fPrecioMax','fSort'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', render);
+  document.getElementById(id).addEventListener('change', render);
+});
+document.getElementById('resetBtn').onclick = ()=>{
+  document.getElementById('fSearch').value='';
+  document.getElementById('fAnioMin').value='';
+  document.getElementById('fAnioMax').value='';
+  document.getElementById('fPrecioMax').value='';
+  document.getElementById('fSort').value='precio_asc';
+  document.querySelectorAll('.status-row .chip').forEach(c=>c.dataset.on="1");
+  document.querySelectorAll('.tag').forEach(t=>{ t.dataset.on="1"; t.querySelector('.mark').textContent="＋"; });
+  apartadasSwitch.dataset.on = "1";
+  activeGroup = 'Mexicali';
+  buildTabs();
+  render();
+};
+
+buildTipoTags();
+buildTabs();
+render();
+</script>
+</body>
+</html>

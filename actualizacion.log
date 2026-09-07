@@ -1,0 +1,41 @@
+2026-09-07T00:13:05 INFO  [inicio] v1.0.0 | csv=/Users/javiereli/InventAutoStar/inventario.csv
+2026-09-07T00:13:05 ERROR [error] CSVError: CSV no encontrado: '/Users/javiereli/InventAutoStar/inventario.csv' — archivo no encontrado
+2026-09-07T00:13:54 INFO  [inicio] v1.0.0 | csv=/Users/javiereli/InventAutoStar/inventario.csv
+2026-09-07T00:13:54 ERROR [error] CSVError: CSV no encontrado: '/Users/javiereli/InventAutoStar/inventario.csv' — archivo no encontrado
+2026-09-07T00:14:04 INFO  [inicio] v1.0.0 | csv=/Users/javiereli/InventAutoStar/inventario.csv
+2026-09-07T00:14:08 INFO  [inicio] v1.0.0 | csv=/Users/javiereli/InventAutoStar/inventario.csv
+2026-09-07T00:14:08 INFO  [output] 78 vehículos procesados | html=/Users/javiereli/InventAutoStar/inventario_autostar.html
+2026-09-07T00:22:01 INFO  [inicio] v1.0.0 | csv=/Users/javiereli/InventAutoStar/inventario.csv
+2026-09-07T00:22:01 INFO  [output] 78 vehículos procesados | html=/Users/javiereli/InventAutoStar/inventario_autostar.html
+2026-09-07T00:22:01 INFO  [inicio] v1.0.0 | csv=/Users/javiereli/InventAutoStar/inventario.csv
+2026-09-07T00:22:01 INFO  [output] 78 vehículos procesados | html=/Users/javiereli/InventAutoStar/inventario_autostar.html
+2026-09-07T00:22:01 INFO  [inicio] v1.0.0 | csv=/Users/javiereli/InventAutoStar/inventario.csv
+2026-09-07T00:22:01 INFO  [output] 78 vehículos procesados | html=/Users/javiereli/InventAutoStar/inventario_autostar.html
+2026-09-07T00:22:01 INFO  [inicio] v1.0.0 | csv=/Users/javiereli/InventAutoStar/inventario.csv
+2026-09-07T00:22:01 INFO  [output] 78 vehículos procesados | html=/Users/javiereli/InventAutoStar/inventario_autostar.html
+2026-09-07T00:22:01 INFO  [inicio] v1.0.0 | csv=/Users/javiereli/InventAutoStar/inventario.csv
+2026-09-07T00:22:01 INFO  [output] 78 vehículos procesados | html=/Users/javiereli/InventAutoStar/inventario_autostar.html
+2026-09-07T00:22:01 INFO  [inicio] v1.0.0 | csv=/Users/javiereli/InventAutoStar/inventario.csv
+2026-09-07T00:22:01 INFO  [output] 78 vehículos procesados | html=/Users/javiereli/InventAutoStar/inventario_autostar.html
+2026-09-07T00:22:01 INFO  [inicio] v1.0.0 | csv=/Users/javiereli/InventAutoStar/inventario.csv
+2026-09-07T00:22:01 INFO  [inicio] v1.0.0 | csv=/Users/javiereli/InventAutoStar/inventario.csv
+2026-09-07T00:22:01 INFO  [inicio] v1.0.0 | csv=/Users/javiereli/InventAutoStar/inventario.csv
+2026-09-07T00:22:01 INFO  [inicio] v1.0.0 | csv=/Users/javiereli/InventAutoStar/inventario.csv
+2026-09-07T00:22:01 INFO  [output] 78 vehículos procesados | html=/Users/javiereli/InventAutoStar/inventario_autostar.html
+2026-09-07T00:22:01 INFO  [inicio] v1.0.0 | csv=/Users/javiereli/InventAutoStar/inventario.csv
+2026-09-07T00:22:01 INFO  [output] 78 vehículos procesados | html=/Users/javiereli/InventAutoStar/inventario_autostar.html
+2026-09-07T00:22:01 INFO  [inicio] v1.0.0 | csv=/Users/javiereli/InventAutoStar/inventario.csv
+2026-09-07T00:22:01 INFO  [output] 78 vehículos procesados | html=/Users/javiereli/InventAutoStar/inventario_autostar.html
+2026-09-07T00:22:01 WARNING [lock] Ya hay una ejecución en progreso. Saliendo.
+2026-09-07T00:22:01 WARNING [lock] Ya hay una ejecución en progreso. Saliendo.
+2026-09-07T00:22:01 INFO  [inicio] v1.0.0 | csv=/Users/javiereli/InventAutoStar/inventario.csv
+2026-09-07T00:22:01 INFO  [output] 78 vehículos procesados | html=/Users/javiereli/InventAutoStar/inventario_autostar.html
+2026-09-07T00:50:49 INFO  [inicio] v1.0.0 | csv=/Users/javiereli/InventAutoStar/inventario.csv
+2026-09-07T00:51:22 INFO  [inicio] v1.0.0 | csv=/Users/javiereli/InventAutoStar/inventario.csv
+2026-09-07T00:51:22 INFO  [output] 78 vehículos procesados | html=/Users/javiereli/InventAutoStar/inventario_autostar.html
+2026-09-07T01:06:55 INFO  [download] Descargando CSV desde AppSheet...
+2026-09-07T01:07:11 INFO  [download] CSV descargado correctamente → /Users/javiereli/InventAutoStar/inventario.csv
+2026-09-07T01:07:11 INFO  [inicio] v1.0.0 | csv=/Users/javiereli/InventAutoStar/inventario.csv
+2026-09-07T01:07:11 INFO  [output] 77 vehículos procesados | html=/Users/javiereli/InventAutoStar/inventario_autostar.html
+2026-09-07T01:15:03 INFO  [inicio] v1.0.0 | csv=/Users/javiereli/InventAutoStar/inventario.csv
+2026-09-07T01:15:03 INFO  [output] 77 vehículos procesados | html=/Users/javiereli/InventAutoStar/inventario_autostar.html

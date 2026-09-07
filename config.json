@@ -1,0 +1,7 @@
+{
+  "csv_path": "./inventario.csv",
+  "html_output_path": "./inventario_autostar.html",
+  "template_path": "./template.html",
+  "backup_dir": "./backups",
+  "log_path": "./actualizacion.log"
+}
