@@ -1,0 +1,25 @@
+# Sesión de Google — NUNCA subir al repo
+session.json
+
+# CSV descargado — se regenera automáticamente
+inventario.csv
+
+# Backups locales
+backups/
+
+# Entorno virtual Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Archivos de debug de Playwright
+debug_*.png
+
+# Log local
+actualizacion.log
+actualizacion_*.log
+actualizacion.lock
+
+# macOS
+.DS_Store
